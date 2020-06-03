@@ -16,7 +16,6 @@ const entries = fs.readdirSync(baseDir).reduce(function (entries, dir) {
 }, {});
 
 const htmlPlugin = Object.keys(entries).map((key) => {
-  console.log(key)
   const title = key === 'index' ? '首页' : '登录';
   return new HtmlWebpackPlugin({
     title,
