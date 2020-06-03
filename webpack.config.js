@@ -67,7 +67,7 @@ module.exports = {
         port: 8081,
         hot: true,
         //即便HMR不⽣效，浏览器也不⾃动刷新，就开启hotOnly
-        hotOnly:true,
+        hotOnly: true,
         proxy: {
             '/api': {
                 target: 'http://localhost:7010',
@@ -98,6 +98,26 @@ module.exports = {
                         limit: 2048, // 图片11kb 如果小于这个设置 转化成base64  没有生成新的images页面显示base64了
                     },
                 },
+            },
+            {
+                test: /\.js$/,
+                exclude: '/node_modules/',
+                loader: 'babel-loader',
+                options: {
+                    presets: ["@babel/preset-env",
+                        {
+                            targets: {
+                                edge: "17",
+                                firefox: "60",
+                                chrome: "67",
+                                safari: "11.1"
+                            },
+                            useBuiltIns: "usage"//按需注⼊
+
+                        }],
+                    
+                }
+
             },
             // {
             //   test: /\.(png|jpe?g|gif)$/,
@@ -149,12 +169,12 @@ module.exports = {
             },
         ],
     },
-    // 插件配置
-    //plugin 可以在webpack运⾏到某个阶段的时候，帮你做⼀些事情，类似于
-    // ⽣命周期的概念
-    // 扩展插件，在 Webpack 构建流程中的特定时机注⼊扩展逻辑来改变构建结
-    // 果或做你想要的事情。
-    // 作⽤于整个构建过程
+// 插件配置
+//plugin 可以在webpack运⾏到某个阶段的时候，帮你做⼀些事情，类似于
+// ⽣命周期的概念
+// 扩展插件，在 Webpack 构建流程中的特定时机注⼊扩展逻辑来改变构建结
+// 果或做你想要的事情。
+// 作⽤于整个构建过程
     plugins: [
         ...htmlPlugin,
         // new HtmlWebpackPlugin({
@@ -185,24 +205,25 @@ module.exports = {
         // }),
         new webpack.HotModuleReplacementPlugin()
     ],
-    // 文件监听
-    // 轮询判断⽂件的最后编辑时间是否变化，某个⽂件发⽣了变化，并不会⽴刻告诉监听者，先缓存起来
+// 文件监听
+// 轮询判断⽂件的最后编辑时间是否变化，某个⽂件发⽣了变化，并不会⽴刻告诉监听者，先缓存起来
 
-    // watch监听  两种模式 package配置 这里配置 这里设置了我们最好配置一下 watchOptions
-    // watch: true, //false  性能太损耗
-    // watchOptions: {
-    //   //默认为空，不监听的文件或者目录，支持正则
-    //   ignored: /node_modules/,
-    //   //监听到文件变化后，等300ms再去执行，默认300ms,
-    //   aggregateTimeout: 300,
-    //   //判断文件是否发生变化是通过不停的询问系统指定文件有没有变化，默认每秒问1次
-    //   poll: 1000//ms
-    // }
+// watch监听  两种模式 package配置 这里配置 这里设置了我们最好配置一下 watchOptions
+// watch: true, //false  性能太损耗
+// watchOptions: {
+//   //默认为空，不监听的文件或者目录，支持正则
+//   ignored: /node_modules/,
+//   //监听到文件变化后，等300ms再去执行，默认300ms,
+//   aggregateTimeout: 300,
+//   //判断文件是否发生变化是通过不停的询问系统指定文件有没有变化，默认每秒问1次
+//   poll: 1000//ms
+// }
 
-    // 每次改完代码都需要重新打包⼀次，打开浏览器，刷新⼀次，很麻烦
-    // 我们可以安装使⽤webpackdevserver来改善这块的体验
-    // 启动服务后，会发现dist⽬录没有了，这是因为devServer把打包后的模块
-    // 不会放在dist⽬录下，⽽是放到内存中，从⽽提升速度
+// 每次改完代码都需要重新打包⼀次，打开浏览器，刷新⼀次，很麻烦
+// 我们可以安装使⽤webpackdevserver来改善这块的体验
+// 启动服务后，会发现dist⽬录没有了，这是因为devServer把打包后的模块
+// 不会放在dist⽬录下，⽽是放到内存中，从⽽提升速度
 
 
-};
+}
+;
