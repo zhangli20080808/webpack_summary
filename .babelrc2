@@ -28,3 +28,4 @@
   ]
 }
 }
+["plugin-transform-arrow-functions"] 不用配置这个也可以使用箭头函数
