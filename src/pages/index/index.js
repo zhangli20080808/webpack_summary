@@ -45,12 +45,12 @@ import './index.less';
 //babel-loader是webpack 与 babel的通信桥梁，不会做把es6转成es5的⼯作
 // 这部分⼯作需要⽤到@babel/preset-env来做 @babel/preset-env⾥包含了es6转es5的转换规则
 
-const arr = [new Promise(() => {
-}), new Promise(() => {
-})];
-arr.map(item => {
-    console.log(item);
-});
+// const arr = [new Promise(() => {
+// }), new Promise(() => {
+// })];
+// arr.map(item => {
+//     console.log(item);
+// });
 
 // 通过上⾯的⼏步 还不够，Promise等⼀些还有转换过来，这时候需要借助
 // @babel/polyfill，把es的新特性都装进来，来弥补低版本浏览器中缺失的特性以全局变量的⽅式注⼊进来的。windows.Promise，它会造成全局对象的污染
@@ -63,10 +63,26 @@ arr.map(item => {
 
 // 当我们开发的是组件库，⼯具库这些场景的时候，polyfill就不适合了，因
 // 为polyfill是注⼊到全局变量，window下的，会污染全局环境，所以推荐闭
-// 包⽅式：@babel/plugin-transform-runtime
+// 包⽅式：@babel/plugin-transform-runtime   和polyfill作用一样 都是注入新特性
 
 
 // @babel/plugin-transform-runtime  它不会造成全局污染
-//
 // npm install --save-dev @babel/plugin-transform-runtime
 // npm install --save @babel/runtime
+
+// 修改配置⽂件：注释掉之前的presets，添加plugins  一个是通过 presets 一个是通过 plugins
+
+import React, {Component} from "react";
+import ReactDom from "react-dom";
+
+class App extends Component {
+    handle = () => {
+        console.log(2)
+    }
+
+    render() {
+        return <div onClick={this.handle}>hello world</div>;
+    }
+}
+
+ReactDom.render(<App/>, document.getElementById("root"));
