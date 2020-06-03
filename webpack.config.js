@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+// 使用内置的 CleanWebpackPlugin
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -21,7 +22,7 @@ const htmlPlugin = Object.keys(entries).map((key) => {
     title,
     template: './src/index.html',
     inject: true,
-    chunks: [`${key}`],
+    chunks: [key],
     filename: `${key}.html`,
   });
 });
@@ -34,7 +35,9 @@ module.exports = {
     //js模块，咱们就是chunkhash(可以用来做版本管理 比如我们的index里面发生变化 我们的这个hash就会发生变化，这样发到线上之后
     // 我们 login 还能用浏览器的缓存，保证一些性能
     // )  占位符 保证名字唯一  contenthash内容hash  chunk可以理解成 代码块  模块
-    // 1. hash 每次都会变  2. chunkhash 根据入口文件，一个入口文件对应一个chunk  3. contenthash
+    // 1. hash webpack构建的版本 构建一次变一次 每次都会变
+    // 2. chunkhash 根据入口文件，一个入口文件对应一个chunk
+    // 3. contenthash 取决于内容有咩改变 一般用于css 而不是取决于chunk的改变
     filename: '[name]_[chunkhash:8].js',
     // filename: "[name].js"
   },
@@ -43,6 +46,29 @@ module.exports = {
   // 开发阶段的开启会有利于热更新的处理，识别哪个模块变化   ⽣产阶段的开启会有帮助模块压缩，处理副作⽤等⼀些功能
   // 开发: 热更新的时候  process.env.NODE_ENV 生产:压缩 tree shaking 代码分割
   mode: 'development',
+
+  // sourceMap 源代码与打包后的代码的映射关系 在dev模式中，默认开启 帮我们定位问题 多少行多少列错了
+  // eval:速度最快,使⽤eval包裹模块代码, 不会产生.map文件
+  // source-map： 产⽣.map ⽂件
+  // cheap:较快，不⽤管列的信息,也不包含loader的sourcemap
+  // Module：第三⽅模块，包含loader的sourcemap（⽐如jsx to js ，babel
+  // 的sourcemap）
+  // inline： 将 .map 作为DataURI嵌⼊，不单独⽣成 .map ⽂件
+
+  // 线上代码的devtool怎么配置呢
+  // development devtool: "cheap-module-eval-source-map",
+  // production devtool: "cheap-module-source-map",
+  devtool: 'cheap-module-eval-source-map', //确认行就行了  线上我们一般不开启 一旦开启 用户点进去可以看到源代码 非要开启 cheap-module-source-map
+  devServer: {
+    contentBase: './dist',
+    open: true,
+    port: 8081,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:7010',
+      },
+    },
+  },
   // loader 模块解析，模块转换器，⽤于把模块原内容按照需求转换成新内容
   // webpack是模块打包⼯具，⽽模块不仅仅是js，还可以是css，图⽚或者其他格式
   // 但是webpack默认只知道如何处理js和JSON模块，那么其他格式的模块处理，和处理⽅式就需要loader了
@@ -97,7 +123,8 @@ module.exports = {
       {
         test: /\.less$/,
         use: [
-          'style-loader',
+          // 'style-loader',
+          MiniCssExtractPlugin.loader,
           'css-loader',
           'less-loader',
           'postcss-loader',
@@ -145,6 +172,7 @@ module.exports = {
     //   filename: 'login.html',
     // }),
     new CleanWebpackPlugin(),
+    // MiniCssExtractPlugin 将css抽离成独立的文件
     new MiniCssExtractPlugin({
       filename: '[name]_[contenthash:8].css',
     }),
@@ -153,7 +181,7 @@ module.exports = {
   // 轮询判断⽂件的最后编辑时间是否变化，某个⽂件发⽣了变化，并不会⽴刻告诉监听者，先缓存起来
 
   // watch监听  两种模式 package配置 这里配置 这里设置了我们最好配置一下 watchOptions
-  watch: true, //false
+  // watch: true, //false  性能太损耗
   // watchOptions: {
   //   //默认为空，不监听的文件或者目录，支持正则
   //   ignored: /node_modules/,
@@ -162,4 +190,9 @@ module.exports = {
   //   //判断文件是否发生变化是通过不停的询问系统指定文件有没有变化，默认每秒问1次
   //   poll: 1000//ms
   // }
+
+  // 每次改完代码都需要重新打包⼀次，打开浏览器，刷新⼀次，很麻烦
+  // 我们可以安装使⽤webpackdevserver来改善这块的体验
+  // 启动服务后，会发现dist⽬录没有了，这是因为devServer把打包后的模块
+  // 不会放在dist⽬录下，⽽是放到内存中，从⽽提升速度
 };
