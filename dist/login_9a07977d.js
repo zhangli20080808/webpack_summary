@@ -81,19 +81,19 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/login.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/pages/login/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/login.js":
-/*!**********************!*\
-  !*** ./src/login.js ***!
-  \**********************/
+/***/ "./src/pages/login/index.js":
+/*!**********************************!*\
+  !*** ./src/pages/login/index.js ***!
+  \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("document.write(\"hello login!!!!\");\n\n\n//# sourceURL=webpack:///./src/login.js?");
+eval("document.write(\"hello login!!!!\");\n\n\n//# sourceURL=webpack:///./src/pages/login/index.js?");
 
 /***/ })
 
