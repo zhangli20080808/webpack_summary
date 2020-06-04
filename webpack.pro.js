@@ -2,9 +2,8 @@ const path = require('path');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const webpackMerge = require('webpack-merge')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-const baseConfig = require('./webpack.base')
 
 module.exports = {
     output: {
@@ -65,16 +64,16 @@ module.exports = {
     devtool: "none",
 
     // 生产模式会自动开启
-    // optimization: {
-    //     usedExports: true
-    // },
+    optimization: {
+        // usedExports: true,
+        minimizer: [new OptimizeCssAssetsPlugin({})]
+    },
 
     plugins: [
+
         new MiniCssExtractPlugin({
             filename: '[name]_[contenthash:8].css',
         }),
     ]
 }
-
-
 // module.exports = webpackMerge(baseConfig, proConfig)

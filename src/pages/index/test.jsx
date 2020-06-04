@@ -1,14 +1,8 @@
 import React, {Component} from "react";
-import ReactDom from "react-dom";
 
-class App extends Component {
-    handle = () => {
-        console.log(2)
-    }
-
+export default class Test extends Component {
     render() {
-        return <div onClick={this.handle}>hello world</div>;
+        return <div>123</div>;
     }
 }
 
-ReactDom.render(<App/>, document.getElementById("root"));

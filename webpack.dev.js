@@ -37,7 +37,8 @@ module.exports = {
             },
             {
                 test: /\.jsx?$/,
-                exclude: '/node_modules/',
+                exclude: '/node_modules/', //记得要配置 提高js模块打包速度
+                // include: path.resolve(__dirname,'./src'),
                 use: {
                     loader: 'babel-loader',
                 }

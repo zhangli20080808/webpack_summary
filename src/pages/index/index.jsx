@@ -42,7 +42,6 @@ import './index.less';
 // };
 
 
-
 // const arr = [new Promise(() => {
 // }), new Promise(() => {
 // })];
@@ -50,18 +49,20 @@ import './index.less';
 //     console.log(item);
 // });
 
-
-//
 import React, {Component} from "react";
 import ReactDom from "react-dom";
+import Child from './test'
+
 
 class App extends Component {
     handle = () => {
-        console.log(2)
+        console.log(211)
     }
 
     render() {
-        return <div onClick={this.handle}>hello world</div>;
+        return <div onClick={this.handle}>hello world
+            <Child/>
+        </div>;
     }
 }
 

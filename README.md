@@ -160,3 +160,12 @@ webpack开启监听模式，有两种
  中提供了⼀种更加⽅便的⽅法供我们实现代码分割
  
  https://webpack.js.org/plugins/split-chunks-plugin/
+ 
+ 14 优化
+ 
+ * 合理使用插件
+ * resolve参数合理配置(一般js jsx就行 css 图片会有性能损耗)
+   resolve: {
+         extensions: ['.js', '.jsx']
+   },
+ *  

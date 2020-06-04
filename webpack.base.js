@@ -34,6 +34,13 @@ const htmlPlugin = Object.keys(entries).map((key) => {
 
 const commonConfig = {
     entry: entries,
+    resolve: {
+        //配置文件后缀
+        extensions: ['.js', '.jsx'],
+        alias: {
+            zl: path.resolve(__dirname, './src/zl')
+        }
+    },
     plugins: [
         ...htmlPlugin,
         new CleanWebpackPlugin()

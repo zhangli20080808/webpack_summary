@@ -9,10 +9,10 @@
     "@babel/polyfill"
   ],
   "scripts": {
-    "dev:server": "webpack-dev-server --config ./webpack.dev.js",
+    "dev:server": "webpack-dev-server --config ./webpack.base.js",
     "build": "webpack --config webpack.pro.js",
     "dev": "webpack --config ./webpack.dev.js",
-    "base-dev": "webpack  --config ./webpack.base.js",
+    "base-dev": "webpack --config ./webpack.base.js",
     "base-build": "webpack --env.production --config ./webpack.base.js"
   },
   "keywords": [],
@@ -20,9 +20,9 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.10.2",
-    "@babel/plugin-transform-runtime": "^7.10.1",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.10.1",
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-react": "^7.10.1",
     "@babel/preset-stage-0": "^7.8.3",
@@ -35,6 +35,7 @@
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.8.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
     "style-loader": "^1.0.0",
     "url-loader": "^2.1.0",
