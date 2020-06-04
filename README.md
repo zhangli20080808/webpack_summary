@@ -131,3 +131,32 @@ webpack开启监听模式，有两种
   注意  usage 的⾏为类似 babel-transform-runtime，不会造成全局污
      染，因此也会不会对类似 Array.prototype.includes() 进⾏ polyfill。
  
+ 12. tree Shaking
+ webpack2.x开始⽀持 tree shaking概念，顾名思义，"摇树"，只⽀持ES
+ module的引⼊⽅式
+ 
+ optimization: {
+  usedExports: true
+  }
+  
+ 开发模式设置后，不会帮助我们把没有引⽤的代码去掉
+ 
+ * "sideEffects":false 正常对所有模块进⾏tree shaking
+ * "sideEffects":['*.css','@babel/polyfill'] 这样会避免摇掉.css文件
+ 
+ 13. 代码分割 code Splitting
+ 
+ 假如我们引⼊⼀个第三⽅的⼯具库，体积为1mb，⽽我们的业务逻辑代码也有
+ 1mb，那么打包出来的体积⼤⼩会在2mb
+ 
+ 能不能剥离出去？形成单一的链接？
+ 
+ 导致问题：
+ 体积⼤，加载时间⻓
+ 业务逻辑会变化，第三⽅⼯具库不会，所以业务逻辑⼀变更，第三⽅⼯具库也
+ 要跟着变。
+ 
+ 其实code Splitting概念 与 webpack并没有直接的关系，只不过webpack
+ 中提供了⼀种更加⽅便的⽅法供我们实现代码分割
+ 
+ https://webpack.js.org/plugins/split-chunks-plugin/

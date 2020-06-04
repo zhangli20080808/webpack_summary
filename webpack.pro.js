@@ -6,7 +6,7 @@ const webpackMerge = require('webpack-merge')
 
 const baseConfig = require('./webpack.base')
 
-const proConfig = {
+module.exports = {
     output: {
         path: path.resolve(__dirname, './dist'),
         filename: '[name]_[chunkhash:8].js',
@@ -64,6 +64,11 @@ const proConfig = {
     },
     devtool: "none",
 
+    // 生产模式会自动开启
+    // optimization: {
+    //     usedExports: true
+    // },
+
     plugins: [
         new MiniCssExtractPlugin({
             filename: '[name]_[contenthash:8].css',
@@ -72,4 +77,4 @@ const proConfig = {
 }
 
 
-module.exports = webpackMerge(baseConfig, proConfig)
+// module.exports = webpackMerge(baseConfig, proConfig)

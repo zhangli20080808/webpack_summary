@@ -1,5 +1,6 @@
 // import "@babel/polyfill" //es6 7 8 index到了1M 体积变大 去优化 ，用哪些打包哪些
 import './index.less';
+// 这里我们引入了less但是 不是es module的那种形似 而且我们还开启了 tree shaking 会默认为我们的 less文件没用到
 // import logo from './logo.png';
 // import counter from "../../counter";
 // import number from "../../number";
@@ -40,10 +41,7 @@ import './index.less';
 //   document.body.appendChild(div);
 // };
 
-// npm i babel-loader @babel/core @babel/preset-env -D
 
-//babel-loader是webpack 与 babel的通信桥梁，不会做把es6转成es5的⼯作
-// 这部分⼯作需要⽤到@babel/preset-env来做 @babel/preset-env⾥包含了es6转es5的转换规则
 
 // const arr = [new Promise(() => {
 // }), new Promise(() => {
@@ -52,26 +50,8 @@ import './index.less';
 //     console.log(item);
 // });
 
-// 通过上⾯的⼏步 还不够，Promise等⼀些还有转换过来，这时候需要借助
-// @babel/polyfill，把es的新特性都装进来，来弥补低版本浏览器中缺失的特性以全局变量的⽅式注⼊进来的。windows.Promise，它会造成全局对象的污染
 
-
-// 会发现打包的体积⼤了很多，这是因为polyfill默认会把所有特性注⼊进
-// 来，假如我想我⽤到的es6+，才会注⼊，没⽤到的不注⼊，从⽽减少打包
-// 的体积，可不可以呢
-
-
-// 当我们开发的是组件库，⼯具库这些场景的时候，polyfill就不适合了，因
-// 为polyfill是注⼊到全局变量，window下的，会污染全局环境，所以推荐闭
-// 包⽅式：@babel/plugin-transform-runtime   和polyfill作用一样 都是注入新特性
-
-
-// @babel/plugin-transform-runtime  它不会造成全局污染
-// npm install --save-dev @babel/plugin-transform-runtime
-// npm install --save @babel/runtime
-
-// 修改配置⽂件：注释掉之前的presets，添加plugins  一个是通过 presets 一个是通过 plugins
-
+//
 import React, {Component} from "react";
 import ReactDom from "react-dom";
 
@@ -86,3 +66,18 @@ class App extends Component {
 }
 
 ReactDom.render(<App/>, document.getElementById("root"));
+
+
+// import { add } from "../../counter";
+// add(1, 2);
+
+// btn.onclick = function() {
+//   import(/* webpackPrefetch: true */ "LoginModal");
+// };
+//当用户点击的时候才动态加载这个loginmodal模块，那么会不会这个模块开始的时候是没有内容的呢？
+
+//当前网络清闲的时候，自己加载
+
+//webpack推荐的代码方式就是异步的，这里面的异步是指动态加载，合理的使用模块组件
+
+// prefetch 会在父 chunk 加载结束后开始加载。

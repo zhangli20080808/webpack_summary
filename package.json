@@ -1,20 +1,25 @@
 {
-  "name": "webpack_demo",
+  "name": "webpack_summary",
   "version": "1.0.0",
-  "description": "",
+  "description": "this is a webpack_summary",
   "main": "index.js",
+  "sideEffects": [
+    "*.css",
+    "*.png",
+    "@babel/polyfill"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev:server": "webpack-dev-server --config ./webpack.dev.js",
     "build": "webpack --config webpack.pro.js",
-    "dev": "webpack --config ./webpack.dev.js"
+    "dev": "webpack --config ./webpack.dev.js",
+    "base-dev": "webpack  --config ./webpack.base.js",
+    "base-build": "webpack --env.production --config ./webpack.base.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.10.2",
-    "@babel/plugin-transform-arrow-functions": "^7.10.1",
     "@babel/plugin-transform-runtime": "^7.10.1",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",

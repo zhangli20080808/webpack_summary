@@ -4,11 +4,17 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // 使用内置的 CleanWebpackPlugin
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
+const merge = require('webpack-merge')
+
+const prodConfig = require('./webpack.pro')
+
+const devConfig = require('./webpack.dev')
+
 const baseDir = path.resolve(__dirname, './src/pages');
 // 同步版本的 fs.readdir() 。 fs.readdirSync
 const entries = fs.readdirSync(baseDir).reduce(function (entries, dir) {
     const fullPath = path.resolve(baseDir, dir);
-    const entry = path.join(fullPath, 'index.js');
+    const entry = path.join(fullPath, 'index.jsx');
     if (fs.statSync(fullPath).isDirectory() && fs.existsSync(entry)) {
         entries[dir] = entry;
     }
@@ -19,14 +25,14 @@ const htmlPlugin = Object.keys(entries).map((key) => {
     const title = key === 'index' ? '首页' : '登录';
     return new HtmlWebpackPlugin({
         title,
-        template: './src/index.html',
+        template: path.resolve(__dirname, './src/index.html'),
         inject: true,
-        chunks: [key],
+        chunks: [`${key}`, 'common', 'vendor', 'react_vendors'],
         filename: `${key}.html`,
     });
 });
 
-module.exports = {
+const commonConfig = {
     entry: entries,
     plugins: [
         ...htmlPlugin,
@@ -34,3 +40,11 @@ module.exports = {
     ]
 }
 
+module.exports = (env) => {
+    // console.log(env,'env')  //{ production: true }
+    if (env && env.production) {
+        return merge(commonConfig, prodConfig)
+    } else {
+        return merge(commonConfig, devConfig)
+    }
+}

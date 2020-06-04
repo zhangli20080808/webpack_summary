@@ -29,7 +29,7 @@ const htmlPlugin = Object.keys(entries).map((key) => {
 });
 
 module.exports = {
-    //   entry: "./src/index.js",
+    //   entry: "./src/index.jsx",
     entry: entries,
     output: {
         path: path.resolve(__dirname, './dist'),
