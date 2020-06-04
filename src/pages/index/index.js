@@ -7,7 +7,7 @@ import './index.less';
 // counter()
 // number()
 //
-// //hmr是否开启 要监控哪一个模块
+// //hmr是否开启 要监控哪一个模块  注意开启之后 contenthash chunkhash要注意规避
 // if (module.hot) {
 //     module.hot.accept("../../number", function () {
 //         document.body.removeChild(document.getElementById("number"
