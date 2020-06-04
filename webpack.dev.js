@@ -1,7 +1,34 @@
 const path = require('path')
+const fs = require('fs')
+// 使用内置的 CleanWebpackPlugin
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 const webpack = require('webpack')
-const webpackMerge = require('webpack-merge')
-const baseConfig = require('./webpack.base')
+
+
+const plugins = [
+    new CleanWebpackPlugin(),
+]
+
+const files = fs.readdirSync(path.resolve(__dirname, './dll'))
+files.forEach(file => {
+    if (/.*\.dll.js/.test(file)) {
+        plugins.push(
+            new AddAssetHtmlPlugin({
+                filepath: path.resolve(__dirname, './dll', file)
+            })
+        )
+    }
+    if (/.*\.manifest.json/.test(file)) {
+        plugins.push(
+            new webpack.DllReferencePlugin({
+                manifest: path.resolve(__dirname, './dll', file)
+            }),
+        )
+    }
+
+})
 
 module.exports = {
     mode: 'development',
@@ -15,7 +42,7 @@ module.exports = {
         open: true,
         port: 8081,
         hot: true,
-        hotOnly: true,
+        // hotOnly: true,
         proxy: {
             '/api': {
                 target: 'http://localhost:7010',
@@ -89,25 +116,26 @@ module.exports = {
             cacheGroups: {
                 vendors: {
                     test: /[\\/]node_modules[\\/]/,
-                    name: "vendor", // 要缓存的 分隔出来的 chunk 名称
+                    name: "vendors", // 要缓存的 分隔出来的 chunk 名称
                     priority: -10//缓存组优先级 数字越⼤，优先级越⾼
                 },
-                commons: {
-                    test: /(react|react-dom)/,
-                    name: "react_vendors",
-                    chunks: "all"
-                },
-                default: {
-                    // minChunks: 2,
-                    priority: -20,
-                    //如果一个模块已经被打包过了就忽略这个模块 复用之前已经打包过的模块
-                    reuseExistingChunk: true,
-                    filename: "common.js"
-                }
+                // commons: {
+                //     test: /(react|react-dom)/,
+                //     name: "react_vendors",
+                //     chunks: "all"
+                // },
+                // default: {
+                //     // minChunks: 2,
+                //     priority: -20,
+                //     //如果一个模块已经被打包过了就忽略这个模块 复用之前已经打包过的模块
+                //     reuseExistingChunk: true,
+                //     filename: "common.js"
+                // }
             }
         }
     },
     plugins: [
+        ...plugins,
         new webpack.HotModuleReplacementPlugin()
     ],
 };

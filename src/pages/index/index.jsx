@@ -51,18 +51,16 @@ import './index.less';
 
 import React, {Component} from "react";
 import ReactDom from "react-dom";
-import Child from './test'
-
+import _ from 'lodash'
+// import $ from 'jquery'
 
 class App extends Component {
     handle = () => {
-        console.log(211)
+        // $('#div').html('123')
     }
 
     render() {
-        return <div onClick={this.handle}>hello world
-            <Child/>
-        </div>;
+        return <div id='div' onClick={this.handle}>{_.join(['this', 'is', 'zl'])}</div>;
     }
 }
 

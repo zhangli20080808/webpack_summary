@@ -18,8 +18,15 @@
     ]
   ],
   "presets": [
-    "@babel/preset-react",
-    "@babel/preset-env"
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "chrome": "67"
+        }
+      }
+    ],
+    "@babel/preset-react"
   ]
 }
 
