@@ -10,10 +10,11 @@
   ],
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack.base.js",
-    "dev-build": "webpack --config webpack.pro.js",
+    "dev-build": "webpack --config ./webpack.base.js",
     "base-dev": "webpack --config ./webpack.base.js",
     "build": "webpack --env.production --config ./webpack.base.js",
-    "build:dll": "webpack --config ./webpack.dll.js"
+    "build:dll": "webpack --config ./webpack.dll.js",
+    "analysc": "webpack --profile --json > stats.json --config ./webpack.base.js"
   },
   "keywords": [],
   "author": "",

@@ -34,6 +34,7 @@ module.exports = {
     mode: 'development',
     output: {
         path: path.resolve(__dirname, './dist'),
+        // chunkFilename: "[name].chunk.js",
         filename: '[name].js',
     },
     devtool: 'cheap-module-eval-source-map',

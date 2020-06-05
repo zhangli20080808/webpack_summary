@@ -21,6 +21,7 @@ webpack 是⼀个模块打包⼯具，可以识别出引⼊模块的语法 ，�
 包⼯具
 
 # 核⼼概念
+
 1. entry
 指定webpack打包⼊⼝⽂件:Webpack 执⾏构建的第⼀步将从 Entry 开
 始，可抽象成输⼊
@@ -178,5 +179,49 @@ webpack开启监听模式，有两种
   全局变量 vendors 对我们的源代码进行分析 ，一旦分析出来我们使用的内容实在
   dll中，就会直接使用vendors.dll.js中的内容，就不回去node_m
   中引入我们的模块了
+ 
+ 15. 多核打包
+ parallel-webpack thread-loader happypack 
+ 
+ 
+### 懒加载 
+ 
+ Lazy Loading 其实就是通过import 来异步的加载一个模块 但是实际上什么时候去加载
+ 是不一定的，真正执行import的时候，可以让我们的页面加载速度更快 
+ 
+ 是ES中的一个概念 webpack只是识别这种代码 对代码进行分割
+ 
+ 代码分割，和webpack无关
+ 
+ // webpack中实现代码分割，两种方式
+ // 1. 同步代码： 只需要在webpack.common.js中做optimization的配置即可
+ // 2. 异步代码(import): 异步代码，无需做任何配置，会自动进行代码分割，放置到新的文件中
+
+  
+ ### chunk
+ 
+ 打包生成的每一个js文件的就是一个chunk 
+ 意义？ minChunks:2 这个chunk被引入了几次 就是有两个以上的文件依赖lodash
+ 我们就需要对lodash进行代码分割
+ 
+ ### 打包分析
+ 
+ c shift p coverage
+ 
+ ### prefetch preload
+ 比如我们的登录弹窗 异步加载可能会慢点 如何快点呢？
+ 页面js加载完成 登录网络有空闲的时候 会帮我们预先加载好
+ 注意: 书写 webpackPrefetch
+ 
+ import(/* webpackPrefetch:"lodash" */'./a.js')
+ 我们再次点击触发弹窗的时候还会加载一次 但已经拿的是缓存了 看加载时间
+ 
+ 区别  preload 和主业务逻辑一起加载
+ 
+ 优化 ？ 考虑我们js代码利用率，有些交互之后才能用到的代码，写到异步组件中去
+ 通过懒加载的形式让我们的代码加载进来 注意兼容性问题
+ 
+ 前端缓存能优化的点是局限的，我们的重点应该放在代码利用率上面
+ 
  
  

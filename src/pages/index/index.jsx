@@ -52,6 +52,7 @@ import './index.less';
 import React, {Component} from "react";
 import ReactDom from "react-dom";
 import _ from 'lodash'
+
 // import $ from 'jquery'
 
 class App extends Component {
@@ -80,3 +81,15 @@ ReactDom.render(<App/>, document.getElementById("root"));
 //webpack推荐的代码方式就是异步的，这里面的异步是指动态加载，合理的使用模块组件
 
 // prefetch 会在父 chunk 加载结束后开始加载。
+
+
+async function getComponent() {
+    //魔法注释
+    const {default: _} = await import(/* webpackChunkName:"lodash" */'lodash')
+    const element = document.createElement('div');
+    element.innerHTML = _.join(['z', 'l'], '-');
+    return element;
+}
+getComponent().then(element => {
+    document.body.appendChild(element);
+});

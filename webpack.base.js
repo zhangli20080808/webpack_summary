@@ -65,7 +65,10 @@ const commonConfig = {
     // ]
     plugins: [
         ...htmlPlugin
-    ]
+    ],
+    optimization: {
+        usedExports :true
+    }
 }
 
 module.exports = (env) => {
