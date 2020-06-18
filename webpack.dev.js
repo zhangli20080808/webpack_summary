@@ -1,33 +1,30 @@
-const path = require('path')
-const fs = require('fs')
+const path = require('path');
+const fs = require('fs');
 // 使用内置的 CleanWebpackPlugin
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
-const webpack = require('webpack')
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
+const webpack = require('webpack');
 
-const plugins = [
-  new CleanWebpackPlugin(),
-]
+const plugins = [new CleanWebpackPlugin()];
 
-const files = fs.readdirSync(path.resolve(__dirname, './dll'))
-files.forEach(file => {
+const files = fs.readdirSync(path.resolve(__dirname, './dll'));
+files.forEach((file) => {
   if (/.*\.dll.js/.test(file)) {
     plugins.push(
       new AddAssetHtmlPlugin({
-        filepath: path.resolve(__dirname, './dll', file)
+        filepath: path.resolve(__dirname, './dll', file),
       })
-    )
+    );
   }
   if (/.*\.manifest.json/.test(file)) {
     plugins.push(
       new webpack.DllReferencePlugin({
-        manifest: path.resolve(__dirname, './dll', file)
-      }),
-    )
+        manifest: path.resolve(__dirname, './dll', file),
+      })
+    );
   }
-
-})
+});
 
 module.exports = {
   mode: 'development',
@@ -43,8 +40,8 @@ module.exports = {
     port: 8081,
     hot: true,
     // hotOnly: true,
-    progress: true,  // 显示打包的进度条
-    compress: true,  // 启动 gzip 压缩
+    progress: true, // 显示打包的进度条
+    compress: true, // 启动 gzip 压缩
     proxy: {
       '/api': {
         target: 'http://localhost:7010',
@@ -70,11 +67,14 @@ module.exports = {
       },
       {
         test: /\.jsx?$/,
+        // 排除范围
         exclude: '/node_modules/', //记得要配置 提高js模块打包速度
-        // include: path.resolve(__dirname,'./src'),
-        use: {
-          loader: 'babel-loader',
-        }
+         // include: path.resolve(__dirname,'./src'),
+        // use: {
+        //   loader: 'babel-loader',
+        // },
+        loader: ['babel-loader?cacheDirectory'], //开启缓存 只要es6代码没改 就不重新编译
+
         //新建.babelrc⽂件，把options部分移⼊到该⽂件中
       },
       /*
@@ -98,33 +98,33 @@ module.exports = {
       {
         test: /\.css$/,
         // loader 的执行顺序是：从后往前
-        loader: ['style-loader', 'css-loader', 'postcss-loader'] // 加了 postcss
+        loader: ['style-loader', 'css-loader', 'postcss-loader'], // 加了 postcss
       },
       {
         test: /\.less$/,
         // 增加 'less-loader' ，注意顺序
-        loader: ['style-loader', 'css-loader', 'less-loader']
-      }
+        loader: ['style-loader', 'css-loader', 'less-loader'],
+      },
     ],
   },
   optimization: {
     splitChunks: {
       //默认是⽀持异步，我们使⽤all  对同步 initial，异步 async
       chunks: 'all',
-      minSize: 30000,//最⼩尺⼨，当模块⼤于30kb
-      maxSize: 0,//对模块进⾏⼆次分割时使⽤，不推荐使⽤
-      minChunks: 1,//打包⽣成的chunk⽂件最少有⼏个chunk引⽤了这个模块 比如我们的react react-dom只引用了一次
-      maxAsyncRequests: 5,//最⼤异步请求数，默认5  比如我们异步import了5个文件
-      maxInitialRequests: 3,//最⼤初始化请求书，⼊⼝⽂件同步请求，默认3 比如我们import了3个文件同步
-      automaticNameDelimiter: '_',//打包分割符号
-      name: true,//打包后的名称，除了布尔值，还可以接收⼀个函数
+      minSize: 30000, //最⼩尺⼨，当模块⼤于30kb
+      maxSize: 0, //对模块进⾏⼆次分割时使⽤，不推荐使⽤
+      minChunks: 1, //打包⽣成的chunk⽂件最少有⼏个chunk引⽤了这个模块 比如我们的react react-dom只引用了一次
+      maxAsyncRequests: 5, //最⼤异步请求数，默认5  比如我们异步import了5个文件
+      maxInitialRequests: 3, //最⼤初始化请求书，⼊⼝⽂件同步请求，默认3 比如我们import了3个文件同步
+      automaticNameDelimiter: '_', //打包分割符号
+      name: true, //打包后的名称，除了布尔值，还可以接收⼀个函数
       //打包同步代码的时候 继续走cacheGroups里面的配置 缓存组 把某一块抽离成单独的模块
       // react_vendors vendors_index 打包出来的这个文件右prop-types等构成
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors', // 要缓存的 分隔出来的 chunk 名称
-          priority: -10//缓存组优先级 数字越⼤，优先级越⾼
+          priority: -10, //缓存组优先级 数字越⼤，优先级越⾼
         },
         // commons: {
         //     test: /(react|react-dom)/,
@@ -138,13 +138,10 @@ module.exports = {
         //     reuseExistingChunk: true,
         //     filename: "common.js"
         // }
-      }
-    }
+      },
+    },
   },
-  plugins: [
-    ...plugins,
-    new webpack.HotModuleReplacementPlugin()
-  ],
-}
+  plugins: [...plugins, new webpack.HotModuleReplacementPlugin()],
+};
 
 // module.exports = webpackMerge(baseConfig, devConfig)

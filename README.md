@@ -225,3 +225,22 @@ webpack开启监听模式，有两种
  
  
  
+ # 高级配置
+ 多入口 抽离css文件 抽离公共代码 懒加载 处理jsx 处理vue
+ 
+ # module chunk bundle 的区别
+ module -- 各个源码文件 webpack中都是模块
+ chunk -- 多模块合并成的 如 entry import splitChunk
+ bundle -- 最终输出文件
+ 
+ # 性能优化
+ 开发环境 -- 开发体验和效率，优化打包构建速度 
+ 1. 优化 babel-loader   //开启缓存 只要es6代码没改 就不重新编译
+ 2. IgnorePlugin // 避免引入无用模块 比如 moment 默认会引入所有语言，代码过大 
+ 3. noParse  // 避免重复打包 IgnorePlugin是直接不引入，代码中没有 noParse 是引入了但不打包
+ 4. happyPack  // 多进程打包 js单线程 开启多进程打包 构建提高速度(多核心)
+ 5. ParallelUglifyPlugin
+ 6. 自动刷新
+ 7. 热更新
+ 8. DllPlugin
+ 生产 -- 优化产出代码，产品性能
