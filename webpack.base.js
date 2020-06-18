@@ -9,7 +9,8 @@ const prodConfig = require('./webpack.pro')
 const devConfig = require('./webpack.dev')
 
 const baseDir = path.resolve(__dirname, './src/pages');
-// 同步版本的 fs.readdir() 。 fs.readdirSync
+// fs.stat与fs.statSync判断文件/目录是否存在
+// 同步版本的 fs.readdir() 。 fs.readdirSync 方法将返回一个包含“指定目录下所有文件名称”的数组对象。
 const entries = fs.readdirSync(baseDir).reduce(function (entries, dir) {
     const fullPath = path.resolve(baseDir, dir);
     const entry = path.join(fullPath, 'index.jsx');
@@ -20,7 +21,7 @@ const entries = fs.readdirSync(baseDir).reduce(function (entries, dir) {
 }, {});
 
 const htmlPlugin = Object.keys(entries).map((key) => {
-    const title = key === 'index' ? '首页' : '登录';
+    const title = key === 'index.css' ? '首页' : '登录';
     return new HtmlWebpackPlugin({
         title,
         template: path.resolve(__dirname, './src/index.html'),

@@ -1,7 +1,7 @@
 // import "@babel/polyfill" //es6 7 8 index到了1M 体积变大 去优化 ，用哪些打包哪些
-import './index.less';
 // 这里我们引入了less但是 不是es module的那种形似 而且我们还开启了 tree shaking 会默认为我们的 less文件没用到
-// import logo from './logo.png';
+import './index.css'
+import logo from './logo.png';
 // import counter from "../../counter";
 // import number from "../../number";
 //
@@ -22,12 +22,13 @@ import './index.less';
 // });
 // import "./index.css";
 
-// var img = new Image();
-// img.src = logo;
-// img.classList.add('logo');
-//
-// var root = document.getElementById('root');
-// root.append(img);
+var img = new Image();
+img.src = logo;
+img.classList.add('logo');
+
+var root = document.getElementById('root');
+root.append(img);
+document.body.appendChild(root)
 //
 // document.write('hello webpack!!!，今天的心情有点起伏');
 // console.log('hello');
@@ -49,24 +50,24 @@ import './index.less';
 //     console.log(item);
 // });
 
-import React, {Component} from "react";
-import ReactDom from "react-dom";
-import _ from 'lodash'
-
-// import $ from 'jquery'
-
-class App extends Component {
-    handle = () => {
-        // $('#div').html('123')
-    }
-
-    render() {
-        return <div id='div' onClick={this.handle}>{_.join(['this', 'is', 'zl'])}</div>;
-    }
-}
-
-ReactDom.render(<App/>, document.getElementById("root"));
-
+// import React, {Component} from "react";
+// import ReactDom from "react-dom";
+// import _ from 'lodash'
+//
+// // import $ from 'jquery'
+//
+// class App extends Component {
+//     handle = () => {
+//         // $('#div').html('123')
+//     }
+//
+//     render() {
+//         return <div id='div' onClick={this.handle}>{_.join(['this', 'is', 'zl'])}</div>;
+//     }
+// }
+//
+// ReactDom.render(<App/>, document.getElementById("root"));
+//
 
 // import { add } from "../../counter";
 // add(1, 2);
@@ -82,14 +83,14 @@ ReactDom.render(<App/>, document.getElementById("root"));
 
 // prefetch 会在父 chunk 加载结束后开始加载。
 
-
-async function getComponent() {
-    //魔法注释
-    const {default: _} = await import(/* webpackChunkName:"lodash" */'lodash')
-    const element = document.createElement('div');
-    element.innerHTML = _.join(['z', 'l'], '-');
-    return element;
-}
-getComponent().then(element => {
-    document.body.appendChild(element);
-});
+//
+// async function getComponent() {
+//     //魔法注释
+//     const {default: _} = await import(/* webpackChunkName:"lodash" */'lodash')
+//     const element = document.createElement('div');
+//     element.innerHTML = _.join(['z', 'l'], '-');
+//     return element;
+// }
+// getComponent().then(element => {
+//     document.body.appendChild(element);
+// });
