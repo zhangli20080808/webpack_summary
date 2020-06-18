@@ -11,8 +11,8 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 module.exports = {
   output: {
     path: path.resolve(__dirname, './dist'),
-    // filename: '[name]_[chunkHash:8].js',  // 思考单页和多页的时候 如果是多页打包 改一个重新打包，两个js都会被改
-    filename: 'bundle.[contentHash:8].js',  // 打包代码时，加上 hash 戳
+    filename: '[name]_[chunkHash:8].js',  // 思考单页和多页的时候 如果是多页打包 改一个重新打包，两个js都会被改
+    // filename: 'bundle.[contentHash:8].js',  // 打包代码时，加上 hash 戳
     // chunkFilename: '[name].min.js',
     // publicPath: 'http://cdn.abc.com'  // 修改所有静态文件 url 的前缀（如 cdn 域名），这里暂时用不到
   },
@@ -110,7 +110,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     // 抽离 css 文件
     new MiniCssExtractPlugin({
-      filename: 'css/main.[contentHash:8].css'
+      filename: 'css/[name].[contentHash:8].css'
     })
   ]
 }

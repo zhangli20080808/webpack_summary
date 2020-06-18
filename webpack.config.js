@@ -10,7 +10,7 @@ const baseDir = path.resolve(__dirname, './src/pages')
 // 同步版本的 fs.readdir() 。 fs.readdirSync
 const entries = fs.readdirSync(baseDir).reduce(function (entries, dir) {
   const fullPath = path.resolve(baseDir, dir)
-  const entry = path.join(fullPath, 'index.css.css.less.css.js')
+  const entry = path.join(fullPath, 'index.less.jsx')
   if (fs.statSync(fullPath).isDirectory() && fs.existsSync(entry)) {
     entries[dir] = entry
   }
@@ -18,7 +18,7 @@ const entries = fs.readdirSync(baseDir).reduce(function (entries, dir) {
 }, {})
 
 const htmlPlugin = Object.keys(entries).map((key) => {
-  const title = key === 'index.css.css.less.css' ? '首页' : '登录'
+  const title = key === 'index.less.less' ? '首页' : '登录'
   return new HtmlWebpackPlugin({
     title,
     template: './src/index.html',

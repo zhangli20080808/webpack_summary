@@ -1,6 +1,6 @@
 // import "@babel/polyfill" //es6 7 8 index到了1M 体积变大 去优化 ，用哪些打包哪些
 // 这里我们引入了less但是 不是es module的那种形似 而且我们还开启了 tree shaking 会默认为我们的 less文件没用到
-import './index.css'
+import './index.less'
 import logo from './logo.png';
 // import counter from "../../counter";
 // import number from "../../number";
@@ -20,7 +20,7 @@ import logo from './logo.png';
 // axios.get('/api/banner').then((res) => {
 //   console.log(res.data);
 // });
-// import "./index.css";
+// import "./index.less";
 
 var img = new Image();
 img.src = logo;
