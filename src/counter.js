@@ -10,9 +10,10 @@
 // }
 // export default counter;
 
-export function add(a, b) {
-  console.log(a + b);
-}
-export function minus(a, b) {
-  console.log(a - b);
-}
+
+export const add = (a, b) => {
+    console.log(a + b);
+};
+export const minus = (a, b) => {
+    console.log(a - b);
+};

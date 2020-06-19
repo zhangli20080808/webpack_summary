@@ -36,19 +36,19 @@ module.exports = {
           },
         },
       },
+      // {
+      //   test: /\.jsx?$/,
+      //   exclude: '/node_modules/',
+      //   use: {
+      //     loader: 'babel-loader',
+      //   },
+      // },
       {
         test: /\.jsx?$/,
+        // 把对 .js 文件的处理转交给 id 为 babel 的 HappyPack 实例
+        use: ['happypack/loader?id=babel'],
         exclude: '/node_modules/',
-        use: {
-          loader: 'babel-loader',
-        },
       },
-      // {
-      //   test: /\.js$/,
-      //   // 把对 .js 文件的处理转交给 id 为 babel 的 HappyPack 实例
-      //   use: ['happypack/loader?id=babel'],
-      //   exclude: '/node_modules/',
-      // },
       {
         test: /\.(woff2|woff)$/,
         use: {
@@ -137,13 +137,14 @@ module.exports = {
     new webpack.IgnorePlugin(/\.\/locale/, /moment/),
 
     // happyPack 开启多进程打包
-    // new HappyPack({
-    //   // 用唯一的标识符 id 来代表当前的 HappyPack 是用来处理一类特定的文件
-    //   id: 'babel',
-    //   // 如何处理 .js 文件，用法和 Loader 配置中一样
-    //   loaders: ['babel-loader?cacheDirectory'],
-    // }),
+    new HappyPack({
+      // 用唯一的标识符 id 来代表当前的 HappyPack 是用来处理一类特定的文件
+      id: 'babel',
+      // 如何处理 .js 文件，用法和 Loader 配置中一样
+      loaders: ['babel-loader?cacheDirectory'],
+    }),
     // 使用 ParallelUglifyPlugin 并行压缩输出的 JS 代码
+    // https://blog.csdn.net/meifannao789456/article/details/104793275/
     new ParallelUglifyPlugin({
       // 传递给 UglifyJS 的参数
       // （还是使用 UglifyJS 压缩，只不过帮助开启了多进程）
