@@ -16,6 +16,7 @@ import logo from './logo.png';
 //         number();
 //     });
 // }
+
 // import axios from 'axios';
 // axios.get('/api/banner').then((res) => {
 //   console.log(res.data);

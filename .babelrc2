@@ -4,7 +4,7 @@
       "@babel/plugin-transform-runtime",
       {
         "absoluteRuntime": false,
-        "corejs": false,
+        "corejs": false, // corejs版本
         "helpers": true,
         "regenerator": true,
         "useESModules": false
@@ -23,7 +23,9 @@
       {
         "targets": {
           "chrome": "67"
-        }
+        },
+        "useBuiltIns: 'useage', // 这里配置了 可以删掉 require('@babel/polyfill')
+        "corejs": 3
       }
     ],
     "@babel/preset-react"
