@@ -6,6 +6,12 @@ Webpack 可以看做是模块打包机：它做的事情是，分析你的项⽬
 到 JavaScript 模块以及其它的⼀些浏览器不能直接运⾏的拓展语⾔（Scss，
 TypeScript 等），并将其打包为合适的格式以供浏览器使⽤。
 
+# 原理
+1. 识别入口文件
+2. 通过逐层识别模块依赖(Commonjs、amd或者es6的import，webpack都会对其进行分析，来获取代码的依赖)
+3. webpack做的就是分析代码，转换代码，编译代码，输出代码
+4. 最终形成打包后的代码
+
 # 安装
 
 - npm install webpack webpack-cli --save-dev //-D
@@ -252,7 +258,7 @@ bundle -- 最终输出文件
 2.  IgnorePlugin // 避免引入无用模块 比如 moment 默认会引入所有语言，代码过大
 3.  noParse // 避免重复打包 IgnorePlugin 是直接不引入，代码中没有 noParse 是引入了但不打包
 4.  happyPack // 多进程打包 js 单线程 开启多进程打包 构建提高速度(多核心)
-5.  ParallelUglifyPlugin
+5.  ParallelUglifyPlugin //  并行压缩输出的 JS 代码
 6.  自动刷新
 7.  热更新
 8.  DllPlugin
@@ -314,9 +320,27 @@ if(isDev){
 1. babel是js新语法的编译工具、不关心模块化
 2. webpack 打包构建工具，是多个loader和plugin的集合
 
+# loader和plugin的区别
+1. 在webpack运行的生命周期中会广播出许多事件，plugin可以监听这些事件，在合适的时机通过webpack提供的API改变输出结果。
+2. loader是文件加载器，能够加载资源文件，并对这些文件进行一些处理，诸如编译、压缩等，最终一起打包到指定的文件中
+
+区别？对于loader，它是一个转换器，将A文件进行编译形成B文件，这里操作的是文件，比如将A.scss转换为A.css，单纯的文件转换过程
+plugin是一个扩展器，它丰富了webpack本身，针对是loader结束后，webpack打包的整个过程，它并不直接操作文件，而是基于事件机制工作，会监听webpack打包过程中的某些节点，执行广泛的任务
+理解new的过程
+使用该plugin后，执行的顺序：
+
+1. webpack启动后，在读取配置的过程中会执行new MyPlugin(options)初始化一个MyPlugin获取其实例
+2. 在初始化compiler对象后，就会通过compiler.plugin(事件名称，回调函数)监听到webpack广播出来的事件
+3. 并且可以通过compiler对象去操作webpack
+
+https://blog.csdn.net/csm0912/article/details/88795369
 # 如何产出一个lib
 library 给内部人使用的第三方类库 产出lib使用babel-runtime
 
 # 为何 proxy不能被 polyfill
 比如 class通过function模拟 promise可以通过callback模拟
 但是 proxy的功能不能用 Object.defineProperty模拟
+
+# webpack如何实现懒加载
+1. import 结合我们的vue react异步组件 
+2. 结合vue-router react-router异步加载路由
